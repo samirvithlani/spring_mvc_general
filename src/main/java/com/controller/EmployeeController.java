@@ -67,10 +67,10 @@ public class EmployeeController {
 		int res = employeeDao.addEmployee(employeeBean);
 		if (res > 0) {
 
-			return "home";
+			return "redirect:viewemployees";
 		}
 
-		return "home";
+		return "redirect:viewemployees";
 	}
 
 	@GetMapping(value = "/viewemployees")
@@ -79,14 +79,31 @@ public class EmployeeController {
 		List<EmployeeBean> list = employeeDao.getAllEmployees();
 		model.addAttribute("emplist", list);
 
-		return "employeelist"; 
-		
+		return "employeelist";
+
 	}
-	@RequestMapping(value = "/deleteemployee/{ename}")
-	public String deleteEmployee(@PathVariable("ename") String eName) {
+
+	@RequestMapping(value = "/deleteemployee/{eid}")
+	public String deleteEmployee(@PathVariable("eid") int eId) {
+
+		System.out.println("this method called..." + eId);
+		employeeDao.deleteEmployee(eId);
+		return "redirect:/viewemployees";
+	}
+
+	@RequestMapping(value = "/editemployee/{eid}")
+	public String editEmployee(@PathVariable("eid") int eid, Model model) {
+
+		EmployeeBean employeeBean = employeeDao.getEmployeeById(eid);
+		model.addAttribute("employeeBean", employeeBean);
+		return "editEmployee";
+	}
+	
+	@RequestMapping(value = "/updateemployee")
+	public String updateEmployee(EmployeeBean employeeBean) {
 		
-		System.out.println("ename ="+eName);
-		return "home";
+		employeeDao.updateEmployee(employeeBean);
+		return "redirect:/viewemployees";
 	}
 
 }

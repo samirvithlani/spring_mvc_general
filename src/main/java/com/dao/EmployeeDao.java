@@ -33,16 +33,36 @@ public class EmployeeDao {
 			EmployeeBean employeeBean = new EmployeeBean();
 			employeeBean.seteAge(rs.getInt("eage"));
 			employeeBean.setEmployeeName(rs.getString("eName"));
+			employeeBean.seteEmail(rs.getString("eemail"));
+			employeeBean.setePassword(rs.getString("epassword"));
+			employeeBean.seteId(rs.getInt("eId"));
 
 			return employeeBean;
 		}
 
 	}
 
+	public int deleteEmployee(int eId) {
+
+		return jdbcTemplate.update("delete from employee where eid = ?", eId);
+	}
+
+	public int updateEmployee(EmployeeBean employeeBean) {
+		
+		System.out.println("eid ="+employeeBean.geteId());
+		return jdbcTemplate.update("update employee set eName =?,eemail=?,eage=?,epassword=? where eid =?",employeeBean.getEmployeeName(),employeeBean.geteEmail(),employeeBean.geteAge(),employeeBean.getePassword(),employeeBean.geteId());
+	}
+
+	public EmployeeBean getEmployeeById(int id) {
+
+		return jdbcTemplate.queryForObject("select * from employee where eid =" + id + "", new EmployeeMapper());
+	}
+
 	public int addEmployee(EmployeeBean employeeBean) {
 
-		return jdbcTemplate.update("insert into employee(ename,eage)values(?,?)", employeeBean.getEmployeeName(),
-				employeeBean.geteAge());
+		return jdbcTemplate.update("insert into employee(ename,eemail,eage,epassword)values(?,?,?,?)",
+				employeeBean.getEmployeeName(), employeeBean.geteEmail(), employeeBean.geteAge(),
+				employeeBean.getePassword());
 	}
 
 }

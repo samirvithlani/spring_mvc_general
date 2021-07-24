@@ -6,22 +6,33 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<style>
+.table, th, td {
+	border: 1px solid black;
+}
+</style>
+
 </head>
 <body>
-	<table>
+	<table class="table">
 		<tr>
+			<th>EMPLOYEE Id</th>
 			<th>EMPLOYEE NAME</th>
 			<th>EMPLOYEE AGE</th>
+			<th>EMPLOYEE Email</th>
 		</tr>
-		<tr>
-			<c:forEach var="list" items="${emplist}">
 
+		<c:forEach var="list" items="${emplist}">
+			<tr>
+				<td>${list.eId }</td>
 				<td>${list.employeeName }</td>
 				<td>${list.eAge }</td>
-				<td><a href="./deleteemployee/ename=${list.employeeName }">DELETE</a></td>
+				<td>${list.eEmail }</td>
+				<td><a href="./deleteemployee/${list.eId }">DELETE</a></td>
+				<td><a href="./editemployee/${list.eId }">UPDATE</a></td>
+			</tr>
+		</c:forEach>
 
-			</c:forEach>
-		</tr>
 
 	</table>
 </body>

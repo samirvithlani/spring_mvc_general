@@ -11,18 +11,35 @@
 .table, th, td {
 	border: 1px solid black;
 }
+
+.error {
+	color: red
+}
 </style>
 </head>
 <body>
-	<form:form method="post" modelAttribute="employeeBean" action="insertemployee">
-		<table class = "table">
+	<form:form method="post" modelAttribute="employeeBean"
+		action="insertemployee">
+		<table class="table">
 			<tr>
 				<td>EMPLOYEE NAME</td>
-				<td><form:input path="employeeName" /></td>
+				<td><form:input path="employeeName" /> <form:errors
+						path="employeeName" cssClass="error"></form:errors></td>
 			</tr>
 			<tr>
 				<td>EMPLOYEE AGE</td>
-				<td><form:input path="eAge" /></td>
+				<td><form:input path="eAge" /> <form:errors path="eAge"
+						cssClass="error"></form:errors></td>
+			</tr>
+			<tr>
+				<td>EMPLOYEE PASSWORD</td>
+				<td><form:input path="ePassword" /> <form:errors path="ePassword"
+						cssClass="error"></form:errors></td>
+			</tr>
+			<tr>
+				<td>EMPLOYEE EMAIL</td>
+				<td><form:input path="eEmail" /> <form:errors path="eEmail"
+						cssClass="error"></form:errors></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="SUBMIT"></td>

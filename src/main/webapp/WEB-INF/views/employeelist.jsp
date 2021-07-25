@@ -1,3 +1,4 @@
+<%@page import="com.bean.EmployeeBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -14,6 +15,9 @@
 
 </head>
 <body>
+<%EmployeeBean employeeBean = (EmployeeBean)session.getAttribute("employeeBean"); 
+%>
+<h1>Logged in employee <%=employeeBean.getEmployeeName() %></h1>
 	<table class="table">
 		<tr>
 			<th>EMPLOYEE Id</th>
@@ -21,6 +25,7 @@
 			<th>EMPLOYEE AGE</th>
 			<th>EMPLOYEE Email</th>
 		</tr>
+		
 
 		<c:forEach var="list" items="${emplist}">
 			<tr>

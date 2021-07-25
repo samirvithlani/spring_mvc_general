@@ -2,9 +2,13 @@ package com.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -62,7 +66,12 @@ public class EmployeeController {
 	 */
 
 	@PostMapping(value = "/insertemployee")
-	public String insertEmployee(EmployeeBean employeeBean) {
+	public String insertEmployee(@Valid @ModelAttribute("employeeBean") EmployeeBean employeeBean, BindingResult br) {
+
+		if (br.hasErrors()) {
+
+			return "addEmployee";
+		}
 
 		int res = employeeDao.addEmployee(employeeBean);
 		if (res > 0) {
@@ -71,6 +80,26 @@ public class EmployeeController {
 		}
 
 		return "redirect:viewemployees";
+	}
+
+	@GetMapping(value = "/employeeLogin")
+	public String employeeLogin(@RequestParam("txtEmployeeEmail") String eemail,
+			@RequestParam("txtEmployeePassword") String epassword, HttpSession session) {
+
+		EmployeeBean employeeBean = employeeDao.loginEmployee(eemail, epassword);
+		if (employeeBean != null) {
+			session.setAttribute("employeeBean", employeeBean);
+			return "redirect:/viewemployees";
+		}
+
+		return "login";
+	}
+
+	@GetMapping(value = "/login")
+
+	public String login() {
+
+		return "login";
 	}
 
 	@GetMapping(value = "/viewemployees")
@@ -98,10 +127,10 @@ public class EmployeeController {
 		model.addAttribute("employeeBean", employeeBean);
 		return "editEmployee";
 	}
-	
+
 	@RequestMapping(value = "/updateemployee")
 	public String updateEmployee(EmployeeBean employeeBean) {
-		
+
 		employeeDao.updateEmployee(employeeBean);
 		return "redirect:/viewemployees";
 	}

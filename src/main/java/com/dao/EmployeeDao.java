@@ -57,6 +57,12 @@ public class EmployeeDao {
 
 		return jdbcTemplate.queryForObject("select * from employee where eid =" + id + "", new EmployeeMapper());
 	}
+	
+	public EmployeeBean loginEmployee(String email,String password) {
+		
+		
+		return jdbcTemplate.queryForObject("select * from employee where eemail ='"+email+"' and epassword ='"+password+"'", new EmployeeMapper());
+	}
 
 	public int addEmployee(EmployeeBean employeeBean) {
 
